@@ -1,0 +1,78 @@
+syntax = "proto3";
+
+option java_multiple_files = true;
+option java_package = "io.grpc.examples.user";
+option java_outer_classname = "UserProto";
+
+package user;
+
+// The user service definition.
+service User {
+  rpc TokenValidation (RequestTokenValidation) returns (ResponseTokenValidation) {}
+  rpc GetUser (RequestGetUser) returns (ResponseGetUser){}
+  rpc GetCivilRegistry (RequestGetCivilRegistry) returns (ResponseGetCivilRegistry){}
+}
+
+// The request message
+message RequestTokenValidation {
+  string token = 1;
+}
+
+// The response message
+message ResponseTokenValidation {
+  int32 oldId = 1;
+  string mobilePhoneNumber = 2;
+}
+
+message RequestGetUser{
+  string mobilePhoneNumber = 1;
+}
+message ResponseGetUser {
+  int64 id = 1;
+  string mobilePhoneNumber = 2;
+  string email = 3;
+  string referralCode = 4;
+  string fullName = 5;
+  bool ottocashLink = 6;
+  int64 ottocashCustomerId = 7;
+  OttocashInfo ottocashInfo = 8;
+  string firebaseToken = 9;
+}
+
+message OttocashInfo{
+  int64 emoneyBalance = 1;
+}
+
+message RequestGetCivilRegistry{
+  string mobilePhoneNumber = 1;
+}
+
+message ResponseGetCivilRegistry {
+  int64 id = 1;
+  string idCardName = 2;
+  string gender = 3;
+  string religion = 4;
+  string dateOfBirth = 5;
+  string address = 6;
+  string placeOfBirth = 7;
+  string province = 8;
+  string bloodGroup = 9;
+  string rt = 10;
+  string rw = 11;
+  string city = 12;
+  string kelurahan = 13;
+  string district = 14;
+  string marriageStatus = 15;
+  string idCardNumber = 16;
+  string occupation = 17;
+  string citizenship = 18;
+  string idCardImage = 19;
+  string signatureImage = 20;
+  string selfieImage = 21;
+  int64 version = 22;
+  string job = 23;
+  string jobDescription = 24;
+  string feature = 25;
+  string product = 26;
+  string description = 27;
+}

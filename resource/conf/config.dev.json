@@ -1,0 +1,71 @@
+{
+  "apps": {
+    "name": "go-fiber",
+    "httpPort": 8888,
+    "grpcPort": 5008,
+    "mode": "dev",
+    "defaultAppsId": "OTTO",
+    "jwtSecretKey": "jwtSecret",
+    "tokenExpiration": 3600,
+    "jwtRefreshSecretKey": "jwtRefreshSecret",
+    "refreshTokenExpiration": 10080
+  },
+  "logger": {
+    "fileTdrLocation": "logs/go-fiber-lite.log",
+    "fileLocation": "logs/",
+    "fileName": "go-fiber.log",
+    "fileMaxAge": 30,
+    "stdout": false,
+    "maskingLogJsonPath": "pin|token|data.access|data.pin",
+    "publishLog": false,
+    "publishOption": {
+      "instId": "OTTODEV",
+      "publishLogTo": "https://baikal.ottodigital.id/v1/publish",
+      "timeout": 60,
+      "debugMode": false,
+      "skipTLS": true
+    }
+  },
+  "database": {
+    "dbType": "mysql",
+    "username": "gambit",
+    "password": "g4mB1t20#21",
+    "schema": "pede_users",
+    "host": "10.20.10.3",
+    "port": 3306,
+    "maxIdleConn": 1,
+    "maxOpenConn": 5,
+    "logMode": false
+  },
+  "redis": {
+    "address": "redis.otto.users:6379",
+    "password": "",
+    "database": 0
+  },
+  "ottouser": {
+    "option": {
+      "timeout": 60,
+      "debugMode": false,
+      "skipTLS": true
+    },
+    "host": "https://gambit-dev.ottodigital.id",
+    "path": {
+      "getUser": "/api/v1/otto-users/get-user",
+      "tokenValidation": "/api/v1/otto-users/session-validation"
+    }
+  },
+  "s3": {
+    "host": "https://s3-ap-southeast-1.amazonaws.com",
+    "region": "ap-southeast-1",
+    "secretKey": "ds309Sp4rfCPmjLELqLVTJN5my5ozLx+OY7FfH+N",
+    "bucket": "pede-dev-images",
+    "key": "AKIAJF3O2UX7L4DLO5TQ",
+    "timeout": 200
+  },
+  "grpcUser": {
+    "option": {
+      "address": "localhost:5088",
+      "timeout": 20
+    }
+  }
+}
