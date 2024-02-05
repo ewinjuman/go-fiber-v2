@@ -9,17 +9,29 @@ import (
 	"google.golang.org/grpc/connectivity"
 )
 
+type (
+	ServerContextService interface {
+		TokenValidation(session *Session.Session, token string) (string, error)
+	}
+
+	serverContext struct {
+		// client to GRPC service
+		userClient    UserClient
+		rpcConnection *pGrpc.RpcConnection
+	}
+)
+
 // serverContext this type contains state of the server
-type serverContext struct {
-	// client to GRPC service
-	userClient    UserClient
-	rpcConnection *pGrpc.RpcConnection
-}
+//type serverContext struct {
+//	// client to GRPC service
+//	userClient    UserClient
+//	rpcConnection *pGrpc.RpcConnection
+//}
 
 var rpcConnection *pGrpc.RpcConnection
 
 // NewServerContext constructor for server context
-func NewServerContext() (*serverContext, error) {
+func NewServerContext() (ServerContextService, error) {
 	if rpcConnection != nil && rpcConnection.Connection != nil && (rpcConnection.Connection.GetState() == connectivity.Connecting || rpcConnection.Connection.GetState() == connectivity.Ready) {
 		ctx := &serverContext{
 			userClient:    NewUserClient(rpcConnection.Connection),
@@ -51,26 +63,4 @@ func (s *serverContext) TokenValidation(session *Session.Session, token string) 
 	}
 
 	return result.MobilePhoneNumber, nil
-}
-
-func (s *serverContext) GetUser(session *Session.Session, mobilePhoneNumber string) (*ResponseGetUser, error) {
-	clientCtx, cancel := s.rpcConnection.CreateContext(context.Background(), session)
-	defer cancel()
-	request := &RequestGetUser{MobilePhoneNumber: mobilePhoneNumber}
-	result, err := s.userClient.GetUser(clientCtx, request)
-	if err != nil {
-		return nil, Error.ParseError(err)
-	}
-	return result, nil
-}
-
-func (s *serverContext) GetCivilRegistry(session *Session.Session, mobilePhoneNumber string) (*ResponseGetCivilRegistry, error) {
-	clientCtx, cancel := s.rpcConnection.CreateContext(context.Background(), session)
-	defer cancel()
-	request := &RequestGetCivilRegistry{MobilePhoneNumber: mobilePhoneNumber}
-	result, err := s.userClient.GetCivilRegistry(clientCtx, request)
-	if err != nil {
-		return nil, Error.ParseError(err)
-	}
-	return result, nil
 }
