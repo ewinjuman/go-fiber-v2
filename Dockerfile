@@ -1,4 +1,4 @@
-FROM golang:1.21.0-alpine3.18 AS builder
+FROM golang:1.22.0-alpine3.19 AS builder
 LABEL stage-go-fiber-v2=builder
 
 RUN apk update && apk add --no-cache git
