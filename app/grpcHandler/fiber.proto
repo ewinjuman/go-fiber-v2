@@ -1,7 +1,7 @@
 syntax = "proto3";
 
 package fiber;
-option go_package = "./app/grpcHandler";
+option go_package = "./app/grpcHandler"; // you can change the package
 
 
 // The user service definition.
