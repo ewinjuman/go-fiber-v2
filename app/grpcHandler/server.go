@@ -1,4 +1,4 @@
-package user
+package grpcHandler
 
 import (
 	"context"
@@ -12,8 +12,6 @@ import (
 	"net"
 	"strconv"
 )
-
-type server struct{}
 
 func middleware() grpc.UnaryServerInterceptor {
 	return func(ctx context.Context, request interface{}, info *grpc.UnaryServerInfo, handler grpc.UnaryHandler) (resp interface{}, err error) {

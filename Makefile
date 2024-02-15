@@ -4,6 +4,9 @@ this_dir := $(dir $(abspath $(firstword $(MAKEFILE_LIST))))
 proto:
 	@protoc -I/usr/local/include -I. -I$GOPATH/src -I$GOPATH/src/github.com/grpc-ecosystem/grpc-gateway/third_party/googleapis --go_out=plugins=grpc:. \app/grpcHandler/user.proto
 
+proto_s:
+	@protoc --go_out=. --go_opt=paths=source_relative --go-grpc_out=. --go-grpc_opt=paths=source_relative app/grpcHandler/fiber.proto
+
 run:
 	@go run main.go $(call arg)
 

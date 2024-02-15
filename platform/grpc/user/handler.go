@@ -10,54 +10,60 @@ import (
 )
 
 type (
-	ServerContextService interface {
-		TokenValidation(session *Session.Session, token string) (string, error)
+	UserGrpcService interface {
+		TokenValidation(token string) (string, error)
 	}
 
-	serverContext struct {
+	userGrpc struct {
 		// client to GRPC service
-		userClient    UserClient
-		rpcConnection *pGrpc.RpcConnection
+		session *Session.Session
 	}
 )
 
-// serverContext this type contains state of the server
-//type serverContext struct {
-//	// client to GRPC service
-//	userClient    UserClient
-//	rpcConnection *pGrpc.RpcConnection
-//}
+// userGrpc this type contains state of the server
+type userGrpcConn struct {
+	// client to GRPC service
+	userClient    UserClient
+	rpcConnection *pGrpc.RpcConnection
+}
 
 var rpcConnection *pGrpc.RpcConnection
 
-// NewServerContext constructor for server context
-func NewServerContext() (ServerContextService, error) {
+func getUserClient() (*userGrpcConn, error) {
 	if rpcConnection != nil && rpcConnection.Connection != nil && (rpcConnection.Connection.GetState() == connectivity.Connecting || rpcConnection.Connection.GetState() == connectivity.Ready) {
-		ctx := &serverContext{
+		ctx := &userGrpcConn{
 			userClient:    NewUserClient(rpcConnection.Connection),
 			rpcConnection: rpcConnection,
 		}
 		return ctx, nil
-	}
 
+	}
 	userConn, err := pGrpc.New(configs.Config.GrpcUser.Option)
 	if err != nil {
 		return nil, err
 	}
-
 	rpcConnection = userConn
-	ctx := &serverContext{
-		userClient:    NewUserClient(userConn.Connection),
-		rpcConnection: userConn,
+	ctx := &userGrpcConn{
+		userClient:    NewUserClient(rpcConnection.Connection),
+		rpcConnection: rpcConnection,
 	}
 	return ctx, nil
 }
 
-func (s *serverContext) TokenValidation(session *Session.Session, token string) (string, error) {
-	clientCtx, cancel := s.rpcConnection.CreateContext(context.Background(), session)
+// NewServerContext constructor for server context
+func NewUserGrpc(session *Session.Session) UserGrpcService {
+	return &userGrpc{session: session}
+}
+
+func (s *userGrpc) TokenValidation(token string) (string, error) {
+	conn, err := getUserClient()
+	if err != nil {
+		return "", err
+	}
+	clientCtx, cancel := conn.rpcConnection.CreateContext(context.Background(), s.session)
 	defer cancel()
 	request := &RequestTokenValidation{Token: token}
-	result, err := s.userClient.TokenValidation(clientCtx, request)
+	result, err := conn.userClient.TokenValidation(clientCtx, request)
 	if err != nil {
 		return "", Error.ParseError(err)
 	}

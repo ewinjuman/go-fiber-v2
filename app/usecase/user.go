@@ -6,6 +6,7 @@ import (
 	"go-fiber-v2/pkg/configs"
 	"go-fiber-v2/pkg/libs/session"
 	"go-fiber-v2/pkg/utils"
+	"go-fiber-v2/platform/grpc/user"
 	"go-fiber-v2/platform/http/example"
 )
 
@@ -16,14 +17,17 @@ type (
 
 	userUsecase struct {
 		session   *session.Session
+		userGrpc  user.UserGrpcService
 		userQuery queries.UserQueriesService
 		userHttp  example.UserHttpService
 	}
 )
 
 func NewUserUsecase(session *session.Session) (item UserUsecaseService) {
+	//userGrpc, err := user.NewServerContext()
 	return &userUsecase{
 		session:   session,
+		userGrpc:  user.NewUserGrpc(session),
 		userQuery: queries.NewUserQueries(session),
 		userHttp:  example.NewUserHttp(session),
 	}
@@ -36,7 +40,11 @@ func (h *userUsecase) CreateUser(up *models.SignUpRequest) (response interface{}
 	user.PasswordHash = utils.GeneratePassword(up.Password)
 	user.UserStatus = 1
 	user.UserRole = up.UserRole + configs.Config.Apps.Name
-
+	resultUserGrpc, err := h.userGrpc.TokenValidation("tokenUser")
+	if err != nil {
+		return
+	}
+	println(resultUserGrpc)
 	resultQuery, err := h.userQuery.InsertOneItem(user)
 	if err != nil {
 		return

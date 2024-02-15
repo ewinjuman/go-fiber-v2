@@ -1,4 +1,4 @@
-package user
+package grpcHandler
 
 import (
 	"context"
@@ -12,6 +12,10 @@ import (
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 )
+
+type server struct {
+	UnimplementedUserServer
+}
 
 func (s *server) SignUp(ctx context.Context, in *RequestSignUp) (*ResponseSignUp, error) {
 	session := ctx.Value(Session.AppSession).(*Session.Session)
