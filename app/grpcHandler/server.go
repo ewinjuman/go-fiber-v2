@@ -3,6 +3,7 @@ package grpcHandler
 import (
 	"context"
 	"fmt"
+	"go-fiber-v2/app/grpcHandler/pb"
 	"go-fiber-v2/pkg/configs"
 	Logger "go-fiber-v2/pkg/libs/logger"
 	Session "go-fiber-v2/pkg/libs/session"
@@ -56,7 +57,7 @@ func StartGrpcServer() {
 	}
 
 	serverNew := grpc.NewServer(grpc.UnaryInterceptor(middleware()))
-	RegisterUserServer(serverNew, &server{})
+	pb.RegisterUserServer(serverNew, &server{})
 
 	println(fmt.Sprintf("GRPC | server listening on %s", listenAddress))
 	if err := serverNew.Serve(lis); err != nil {

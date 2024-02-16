@@ -2,9 +2,9 @@
 // versions:
 // - protoc-gen-go-grpc v1.3.0
 // - protoc             v4.25.2
-// source: app/grpcHandler/fiber.proto
+// source: app/grpcHandler/pb/fiber.proto
 
-package grpcHandler
+package pb
 
 import (
 	context "context"
@@ -105,5 +105,5 @@ var User_ServiceDesc = grpc.ServiceDesc{
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
-	Metadata: "app/grpcHandler/fiber.proto",
+	Metadata: "app/grpcHandler/pb/fiber.proto",
 }

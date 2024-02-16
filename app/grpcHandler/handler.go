@@ -2,6 +2,7 @@ package grpcHandler
 
 import (
 	"context"
+	"go-fiber-v2/app/grpcHandler/pb"
 	"go-fiber-v2/app/models"
 	"go-fiber-v2/app/usecase"
 	Error "go-fiber-v2/pkg/libs/error"
@@ -14,10 +15,10 @@ import (
 )
 
 type server struct {
-	UnimplementedUserServer
+	pb.UnimplementedUserServer
 }
 
-func (s *server) SignUp(ctx context.Context, in *RequestSignUp) (*ResponseSignUp, error) {
+func (s *server) SignUp(ctx context.Context, in *pb.RequestSignUp) (*pb.ResponseSignUp, error) {
 	session := ctx.Value(Session.AppSession).(*Session.Session)
 	request := &models.SignUpRequest{
 		Email:    in.Email,
@@ -41,7 +42,7 @@ func (s *server) SignUp(ctx context.Context, in *RequestSignUp) (*ResponseSignUp
 
 	result := &models.SignUpResponse{}
 	convert.ObjectToObject(d, result)
-	response := &ResponseSignUp{
+	response := &pb.ResponseSignUp{
 		Id:                int32(result.ID),
 		Email:             result.Email,
 		Status:            int32(result.Status),
