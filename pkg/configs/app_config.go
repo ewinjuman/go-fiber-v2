@@ -15,14 +15,14 @@ import (
 var Config *Configuration
 
 func init() {
-	//if (len(os.Args) > 1 && os.Args[1] == "-test.v") || (len(os.Args) > 1 && strings.Contains(strings.ToLower(os.Args[1]), "testlog")) {
-	_, file, _, _ := runtime.Caller(0)
-	apppath, _ := filepath.Abs(filepath.Dir(filepath.Join(file, "../.."+string(filepath.Separator))))
-	err := os.Chdir(apppath)
-	if err != nil {
-		panic(err)
+	if len(os.Args) > 1 && strings.Contains(strings.ToLower(os.Args[1]), "test") {
+		_, file, _, _ := runtime.Caller(0)
+		apppath, _ := filepath.Abs(filepath.Dir(filepath.Join(file, "../.."+string(filepath.Separator))))
+		err := os.Chdir(apppath)
+		if err != nil {
+			panic(err)
+		}
 	}
-	//}
 	Config = New()
 }
 
@@ -36,7 +36,7 @@ func ReloadConfig() (err error) {
 }
 
 func getEnvironment() string {
-	if len(os.Args) > 1 && os.Args[1] != "-test.v" && !strings.Contains(strings.ToLower(os.Args[1]), "testlog") {
+	if len(os.Args) > 1 && !strings.Contains(strings.ToLower(os.Args[1]), "test") {
 		return os.Args[1]
 	}
 	return "local"
