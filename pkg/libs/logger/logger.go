@@ -1,11 +1,9 @@
 package logger
 
 import (
-	"encoding/json"
 	"fmt"
 	"github.com/tidwall/gjson"
 	"github.com/tidwall/sjson"
-	Error "go-fiber-v2/pkg/libs/error"
 	"go-fiber-v2/pkg/libs/helper/convert"
 	"go.uber.org/zap"
 	"go.uber.org/zap/zapcore"
@@ -18,12 +16,10 @@ import (
 )
 
 type Logger struct {
-	loggerSys   *zap.Logger
-	publish     bool
-	publishRest RestClient
-	InstID      string
-	Options     Options
-	ThreadID    string
+	loggerSys *zap.Logger
+	InstID    string
+	Options   Options
+	ThreadID  string
 	//CentralLogIsEnable      bool
 	//loggerTdr *zap.Logger
 }
@@ -115,11 +111,6 @@ func New(config Options) *Logger {
 	l := &Logger{
 		loggerSys: loggerSys,
 	}
-	if config.PublishLog {
-		l.publishRest = NewPublish(config.PublishOption)
-		l.publish = true
-	}
-	l.InstID = config.PublishOption.InstId
 	l.Options = config
 	return l
 }
@@ -168,25 +159,6 @@ func (l *Logger) Error(message string, fields ...zap.Field) {
 
 func (l *Logger) InfoSys(message string, fields ...zap.Field) {
 	l.loggerSys.Info(message, fields...)
-}
-
-func (l *Logger) PublishLog(traceId string, request interface{}) (response interface{}, err error) {
-	if !l.publish {
-		return
-	}
-	result, httpStatus, err := l.publishRest.Execute(traceId, l, url, request)
-	if err != nil {
-		return
-	}
-	if httpStatus != 200 {
-		err = Error.New(httpStatus, "FAILED", "Error publish")
-		return
-	}
-
-	var resp interface{}
-	json.Unmarshal(result, &resp)
-	response = resp
-	return
 }
 
 func (l *Logger) MaskingJson(data interface{}) interface{} {

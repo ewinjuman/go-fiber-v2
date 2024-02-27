@@ -46,6 +46,23 @@ func TestSetError(t *testing.T) {
 			},
 			true,
 			UndefinedErr.Error()},
+		{
+			"Error Undefined with message Test",
+			args{
+				code:    980,
+				message: []string{"error message"},
+			},
+			true,
+			"error message"},
+		{
+			"Error Test found with message",
+			args{
+				code:    PendingCode,
+				message: []string{"error message"},
+			},
+			true,
+			"error message",
+		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {

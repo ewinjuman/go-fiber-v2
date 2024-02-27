@@ -39,6 +39,7 @@ func ConvertPhoneNumber(mobilePhoneNumber string) (newMobilePhoneNumber string, 
 	}
 	valid := NewValidator()
 	if err = valid.Var(newMobilePhoneNumber, "numeric"); err != nil {
+		newMobilePhoneNumber = ""
 		err = Error.New(http.StatusBadRequest, "FAILED", "Mobile Phone Number Tidak Valid")
 		return
 	}

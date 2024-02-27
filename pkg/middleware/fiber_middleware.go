@@ -8,6 +8,7 @@ import (
 	"go-fiber-v2/pkg/configs"
 	Logger "go-fiber-v2/pkg/libs/logger"
 	Session "go-fiber-v2/pkg/libs/session"
+	"strings"
 )
 
 // FiberMiddleware provide Fiber's built-in middlewares.
@@ -15,7 +16,18 @@ import (
 func FiberMiddleware(a *fiber.App) {
 	a.Use(
 		// Add CORS to each route.
-		cors.New(),
+		cors.New(cors.Config{
+			AllowOrigins:     "*",
+			AllowCredentials: true,
+			AllowMethods: strings.Join([]string{
+				fiber.MethodGet,
+				fiber.MethodPost,
+				fiber.MethodHead,
+				fiber.MethodPut,
+				fiber.MethodDelete,
+				fiber.MethodPatch,
+			}, ","),
+		}),
 
 		//Add panic recovery
 		recover.New(recover.Config{EnableStackTrace: true}),

@@ -5,13 +5,15 @@ import (
 )
 
 var (
-	LowerCaseLettersCharset = []rune("abcdefghijklmnopqrstuvwxyz")
-	UpperCaseLettersCharset = []rune("ABCDEFGHIJKLMNOPQRSTUVWXYZ")
-	LettersCharset          = append(LowerCaseLettersCharset, UpperCaseLettersCharset...)
-	NumbersCharset          = []rune("0123456789")
-	AlphanumericCharset     = append(LettersCharset, NumbersCharset...)
-	SpecialCharset          = []rune("!@#$%^&*()_+-=[]{}|;':\",./<>?")
-	AllCharset              = append(AlphanumericCharset, SpecialCharset...)
+	LowerCaseLettersCharset      = []rune("abcdefghijklmnopqrstuvwxyz")
+	UpperCaseLettersCharset      = []rune("ABCDEFGHIJKLMNOPQRSTUVWXYZ")
+	LettersCharset               = append(LowerCaseLettersCharset, UpperCaseLettersCharset...)
+	NumbersCharset               = []rune("0123456789")
+	AlphanumericCharset          = append(LettersCharset, NumbersCharset...)
+	SpecialCharset               = []rune("!@#$%^&*()_+-=[]{}|;':\",./<>?")
+	AllCharset                   = append(AlphanumericCharset, SpecialCharset...)
+	AlphanumericLowerCaseCharset = append(LowerCaseLettersCharset, NumbersCharset...)
+	AlphanumericUpperCaseCharset = append(UpperCaseLettersCharset, NumbersCharset...)
 )
 
 // RandomString return a random string.

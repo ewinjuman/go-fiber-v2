@@ -34,7 +34,6 @@ type Session struct {
 	ErrorMessage            string
 	ActionTo                string
 	ActionName              string
-	CentralLogIsEnable      bool
 }
 
 func New(logger *Logger.Logger) *Session {
@@ -169,10 +168,6 @@ func (session *Session) LogRequest(message ...interface{}) {
 func (session *Session) LogResponse(response interface{}, message ...interface{}) {
 	if response != nil {
 		response = session.Logger.MaskingJson(response)
-	}
-	if session.CentralLogIsEnable {
-		req := session.NewPublishLog().Response().SetInfo().SetResponseBody(response)
-		go session.Logger.PublishLog(session.ThreadID, req)
 	}
 	stop := time.Now()
 	rt := stop.Sub(session.RequestTime).Milliseconds()
@@ -334,8 +329,6 @@ func (session *Session) Error(message interface{}) {
 	rt := stop.Sub(session.RequestTime).Milliseconds()
 	_, fn, line, _ := runtime.Caller(1)
 	file := fmt.Sprintf("%s:%d", fn, line)
-	req := session.NewPublishLog().SetError().SetErrorDesc(message).SetFileName(file).SetRequestBody(session.Request)
-	go session.Logger.PublishLog(session.ThreadID, req)
 
 	session.Logger.InfoSys("",
 		zap.String("level", "ERROR"),
@@ -459,29 +452,3 @@ func GetSession(c *fiber.Ctx) *Session {
 //		"ZipCode":      "Harus kode pos yang valid",
 //	})
 //}
-
-func (session *Session) NewPublishLog() *Logger.PublishRequest {
-	req := &Logger.PublishRequest{
-		InstitutionID: session.Logger.InstID,
-		ServiceName:   session.AppName,
-		LogType:       "User Log",
-	}
-	req.Data.PublishTime = time.Now()
-	req.Data.TraceID = session.ThreadID
-	req.Data.ActionTo = session.ActionTo
-	req.Data.ActionName = session.ActionName
-	req.Data.EndPoint = session.URL
-	return req
-}
-
-func (session *Session) EnableCentralLog(actionName string) *Session {
-	if actionName != "" {
-		go func() {
-			session.ActionName = actionName
-			req := session.NewPublishLog().Request().SetInfo().SetRequestBody(session.Request).SetRequestHeader(session.Header)
-			session.Logger.PublishLog(session.ThreadID, req)
-		}()
-		session.CentralLogIsEnable = true
-	}
-	return session
-}

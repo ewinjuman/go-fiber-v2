@@ -10,7 +10,6 @@ type Options struct {
 	Stdout             bool          `json:"stdout"`
 	MaskingLogJsonPath string        `json:"maskingLogJsonPath"`
 	PublishLog         bool          `json:"publishLog"`
-	PublishOption      PublishOption `json:"publishOption"`
 }
 
 type PublishOption struct {

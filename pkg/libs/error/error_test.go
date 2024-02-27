@@ -173,3 +173,32 @@ func TestNew(t *testing.T) {
 		})
 	}
 }
+
+func TestIsTimeout(t *testing.T) {
+	type args struct {
+		err error
+	}
+	tests := []struct {
+		name string
+		args args
+		want bool
+	}{
+		{
+			"timeout error",
+			args{err: ErrDeadlineExceeded},
+			true,
+		},
+		{
+			"no timeout error",
+			args{err: errors.New("not timeout")},
+			false,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if got := IsTimeout(tt.args.err); got != tt.want {
+				t.Errorf("IsTimeout() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}
