@@ -120,13 +120,8 @@ $ go test ./... -v
 ## Go Unit Test Coverage
 
 ```sh
-$ go test ./... -coverprofile=cover.out
-$ go tool cover -html=cover.out
-```
-or
-```sh
-$ go test -v -coverpkg=./... -coverprofile=profile.cov ./...
-$ go tool cover -func profile.cov
+$ go test -v -coverpkg=./... -coverprofile=coverage.out ./...
+$ go tool cover -func=coverage.out
 ```
 
 ## Go Security
