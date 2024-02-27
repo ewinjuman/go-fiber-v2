@@ -8,6 +8,15 @@ Skeleton service using golang and fiber framework. Mock example available.
 $ go mod tidy
 ```
 
+## GRPC Doc
+
+Generate: https://github.com/grpc-ecosystem/grpc-gateway?tab=readme-ov-file
+
+buf gen: https://github.com/bufbuild/buf
+
+Other https://protobuf.dev/reference/go/go-generated/#package 
+
+
 ## How To Run
 
 env mode available: local/dev/prod
