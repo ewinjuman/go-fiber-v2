@@ -1,7 +1,8 @@
 package codeGenerator
 
 import (
-	"math/rand"
+	"crypto/rand"
+	"math/big"
 )
 
 var (
@@ -28,9 +29,14 @@ func RandomString(size int, charset []rune) string {
 	}
 
 	b := make([]rune, size)
-	possibleCharactersCount := len(charset)
+	possibleCharactersCount := big.NewInt(int64(len(charset)))
 	for i := range b {
-		b[i] = charset[rand.Intn(possibleCharactersCount)]
+		randomNumber, err := rand.Int(rand.Reader, possibleCharactersCount)
+		if err != nil {
+			println("lo.RandomString: charset error")
+			return ""
+		}
+		b[i] = charset[randomNumber.Int64()]
 	}
 	return string(b)
 }

@@ -52,7 +52,6 @@ func RequestResponseLog(c *fiber.Ctx) error {
 
 	session := Session.New(log).
 		SetInstitutionID(configs.Config.Apps.DefaultAppsId).
-		//SetThreadID(sessionID).
 		SetAppName(configs.Config.Apps.Name).
 		SetURL(uri).
 		SetMethod(c.Method()).
