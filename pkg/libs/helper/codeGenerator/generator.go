@@ -20,11 +20,11 @@ var (
 // RandomString return a random string.
 func RandomString(size int, charset []rune) string {
 	if size <= 0 {
-		println("lo.RandomString: Size parameter must be greater than 0")
+		println("Size parameter must be greater than 0")
 		return ""
 	}
 	if len(charset) <= 0 {
-		println("lo.RandomString: Charset parameter must not be empty")
+		println("Charset parameter must not be empty")
 		return ""
 	}
 
@@ -33,7 +33,7 @@ func RandomString(size int, charset []rune) string {
 	for i := range b {
 		randomNumber, err := rand.Int(rand.Reader, possibleCharactersCount)
 		if err != nil {
-			println("lo.RandomString: charset error")
+			println("charset error")
 			return ""
 		}
 		b[i] = charset[randomNumber.Int64()]

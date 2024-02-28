@@ -4,40 +4,6 @@ import (
 	"strings"
 )
 
-//func GetId(me string) (int, error) {
-//	idStr := strings.Split(me, UtilsConstant.TOKEN_SEPARATOR)
-//	id, err := strconv.Atoi(idStr[0])
-//	if err != nil {
-//		return 0, err
-//	}
-//
-//	return id, nil
-//}
-
-//func GetIdV2(c *context.Context) (int, error) {
-//	idStr := c.ResponseWriter.Header().Get("ID")
-//	id, err := strconv.Atoi(idStr)
-//	if err != nil {
-//		return 0, err
-//	}
-//
-//	return id, nil
-//}
-//
-//func GetIdV3(session *Session.Session, c *context.Context) (int, error) {
-//	idStr := c.ResponseWriter.Header().Get("ID")
-//	phone := c.ResponseWriter.Header().Get("PHONE")
-//	if phone != ""{
-//		session.PersonalId = phone
-//	}
-//	id, err := strconv.Atoi(idStr)
-//	if err != nil {
-//		return 0, err
-//	}
-//
-//	return id, nil
-//}
-
 func ContainsInArr(s []string, e string) bool {
 	for _, a := range s {
 		if a == e {
@@ -94,3 +60,37 @@ func AfterString(value string, a string) string {
 	}
 	return value[adjustedPos:]
 }
+
+//func GetId(me string) (int, error) {
+//	idStr := strings.Split(me, UtilsConstant.TOKEN_SEPARATOR)
+//	id, err := strconv.Atoi(idStr[0])
+//	if err != nil {
+//		return 0, err
+//	}
+//
+//	return id, nil
+//}
+
+//func GetIdV2(c *context.Context) (int, error) {
+//	idStr := c.ResponseWriter.Header().Get("ID")
+//	id, err := strconv.Atoi(idStr)
+//	if err != nil {
+//		return 0, err
+//	}
+//
+//	return id, nil
+//}
+//
+//func GetIdV3(session *Session.Session, c *context.Context) (int, error) {
+//	idStr := c.ResponseWriter.Header().Get("ID")
+//	phone := c.ResponseWriter.Header().Get("PHONE")
+//	if phone != ""{
+//		session.PersonalId = phone
+//	}
+//	id, err := strconv.Atoi(idStr)
+//	if err != nil {
+//		return 0, err
+//	}
+//
+//	return id, nil
+//}

@@ -7,8 +7,8 @@ import (
 	"github.com/gofiber/fiber/v2"
 	FiberUtils "github.com/gofiber/fiber/v2/utils"
 	"github.com/pbnjay/memory"
+	"go-fiber-v2/pkg/base"
 	"go-fiber-v2/pkg/configs"
-	"go-fiber-v2/pkg/libs/base"
 	"go-fiber-v2/platform/database"
 )
 

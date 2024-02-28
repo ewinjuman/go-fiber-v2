@@ -40,16 +40,21 @@ func (h *userUsecase) CreateUser(up *models.SignUpRequest) (response interface{}
 	user.PasswordHash = utils.GeneratePassword(up.Password)
 	user.UserStatus = 1
 	user.UserRole = up.UserRole + configs.Config.Apps.Name
+
+	//Grpc Example
 	resultUserGrpc, err := h.userGrpc.TokenValidation("tokenUser")
 	if err != nil {
 		return
 	}
 	println(resultUserGrpc)
+
+	//SQL query example
 	resultQuery, err := h.userQuery.InsertOneItem(user)
 	if err != nil {
 		return
 	}
 
+	//http example
 	reqHttp := example.ValidateSessionRequest{Token: "tokenUser"}
 	respHttp, err := h.userHttp.TokenSessionValidation(reqHttp)
 	if err != nil {

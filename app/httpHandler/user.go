@@ -4,7 +4,7 @@ import (
 	"github.com/gofiber/fiber/v2"
 	"go-fiber-v2/app/models"
 	"go-fiber-v2/app/usecase"
-	"go-fiber-v2/pkg/libs/base"
+	"go-fiber-v2/pkg/base"
 	Error "go-fiber-v2/pkg/libs/error"
 	"go-fiber-v2/pkg/repository"
 	"go-fiber-v2/pkg/utils"

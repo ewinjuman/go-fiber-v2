@@ -4,6 +4,7 @@ import (
 	"github.com/gofiber/fiber/v2"
 	Error "go-fiber-v2/pkg/libs/error"
 	Session "go-fiber-v2/pkg/libs/session"
+	"go-fiber-v2/pkg/repository"
 )
 
 type Base struct {
@@ -41,13 +42,13 @@ func BuildResponse(data interface{}, err error) *Response {
 			res.Code = he.ErrorCode
 			res.Status = he.Status
 		} else {
-			res.Code = 500
-			res.Status = "FAILED"
+			res.Code = repository.UndefinedCode
+			res.Status = repository.FailedStatus
 		}
 		res.Message = err.Error()
 	} else {
-		res.Code = 200
-		res.Status = "SUCCESS"
+		res.Code = repository.SuccessCode
+		res.Status = repository.SuccessStatus
 	}
 
 	return res

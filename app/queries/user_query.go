@@ -25,13 +25,10 @@ func (r *userQueries) InsertOneItem(req *models.User) (user *models.User, err er
 	if err != nil {
 		return
 	}
-	row := new(models.User)
-	err = db.Omit("updated_at").Create(req).Scan(row).Error
-
+	newUser := new(models.User)
+	err = db.Omit("updated_at").Create(req).Scan(newUser).Error
 	if err != nil {
 		return
 	}
-	user = row
-
-	return
+	return newUser, nil
 }
