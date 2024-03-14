@@ -1,7 +1,8 @@
-package httpHandler
+package http
 
 import (
 	"github.com/gofiber/fiber/v2"
+	"github.com/google/uuid"
 	"go-fiber-v2/app/models"
 	"go-fiber-v2/app/usecase"
 	"go-fiber-v2/pkg/base"
@@ -38,5 +39,17 @@ func UserSignUp(c *fiber.Ctx) error {
 func UserSignOut(c *fiber.Ctx) error {
 	ctx := base.NewContext(c)
 
-	return ctx.Response(nil, nil)
+	return ctx.Response("User sign Out", nil)
+}
+
+func UserSignUpV2(c *fiber.Ctx) error {
+	ctx := base.NewContext(c)
+
+	return ctx.Response("User sign Up v2", nil)
+}
+
+func Generate(c *fiber.Ctx) error {
+	ctx := base.NewContext(c)
+	panic("panic")
+	return ctx.Response(uuid.New().ID(), nil)
 }

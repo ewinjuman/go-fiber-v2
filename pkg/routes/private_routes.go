@@ -2,7 +2,7 @@ package routes
 
 import (
 	"github.com/gofiber/fiber/v2"
-	"go-fiber-v2/app/httpHandler"
+	httpHandler "go-fiber-v2/app/interfaces/http"
 	"go-fiber-v2/pkg/middleware"
 )
 

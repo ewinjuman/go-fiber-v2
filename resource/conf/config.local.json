@@ -28,10 +28,10 @@
   },
   "database": {
     "dbType": "mysql",
-    "username": "root",
-    "password": "passindo",
+    "username": "gambit",
+    "password": "g4mB1t20#21",
     "schema": "fiber",
-    "host": "localhost",
+    "host": "gambit-dev.ottodigital.id",
     "port": 3306,
     "maxIdleConn": 1,
     "maxOpenConn": 5,

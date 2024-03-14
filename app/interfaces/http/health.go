@@ -1,4 +1,4 @@
-package httpHandler
+package http
 
 import (
 	"github.com/dimiro1/health"

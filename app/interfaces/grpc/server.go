@@ -1,9 +1,9 @@
-package grpcHandler
+package grpc
 
 import (
 	"context"
 	"fmt"
-	"go-fiber-v2/app/grpcHandler/pb"
+	"go-fiber-v2/app/interfaces/grpc/pb"
 	"go-fiber-v2/pkg/configs"
 	Logger "go-fiber-v2/pkg/libs/logger"
 	Session "go-fiber-v2/pkg/libs/session"

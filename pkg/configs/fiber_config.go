@@ -14,6 +14,8 @@ func FiberConfig() fiber.Config {
 
 	// Return Fiber configuration.
 	return fiber.Config{
-		ReadTimeout: time.Second * time.Duration(readTimeoutSecondsCount),
+		AppName:           Config.Apps.Name,
+		EnablePrintRoutes: Config.Apps.Mode == "local",
+		ReadTimeout:       time.Second * time.Duration(readTimeoutSecondsCount),
 	}
 }

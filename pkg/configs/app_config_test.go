@@ -35,3 +35,22 @@ func Test_getConfigFilePath(t *testing.T) {
 		})
 	}
 }
+
+func Test_getEnvironment(t *testing.T) {
+	tests := []struct {
+		name string
+		want string
+	}{
+		{
+			"Get Local",
+			"local",
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if got := getEnvironment(); got != tt.want {
+				t.Errorf("getEnvironment() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}

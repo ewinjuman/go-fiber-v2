@@ -3,7 +3,7 @@ package main
 import (
 	"github.com/common-nighthawk/go-figure"
 	"github.com/gofiber/fiber/v2"
-	user "go-fiber-v2/app/grpcHandler"
+	userGrpc "go-fiber-v2/app/interfaces/grpc"
 	"go-fiber-v2/pkg/configs"
 	"go-fiber-v2/pkg/middleware"
 	"go-fiber-v2/pkg/routes"
@@ -33,7 +33,7 @@ func main() {
 	myFigure.Print()
 
 	go func() {
-		user.StartGrpcServer()
+		userGrpc.StartGrpcServer()
 	}()
 	// Start server (with or without graceful shutdown).
 	if configs.Config.Apps.Mode == "local" {

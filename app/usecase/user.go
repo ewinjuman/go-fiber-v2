@@ -42,11 +42,11 @@ func (h *userUsecase) CreateUser(up *models.SignUpRequest) (response interface{}
 	user.UserRole = up.UserRole + configs.Config.Apps.Name
 
 	//Grpc Example
-	resultUserGrpc, err := h.userGrpc.TokenValidation("tokenUser")
-	if err != nil {
-		return
-	}
-	println(resultUserGrpc)
+	//resultUserGrpc, err := h.userGrpc.TokenValidation("tokenUser")
+	//if err != nil {
+	//	return
+	//}
+	//println(resultUserGrpc)
 
 	//SQL query example
 	resultQuery, err := h.userQuery.InsertOneItem(user)

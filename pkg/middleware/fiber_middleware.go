@@ -4,11 +4,13 @@ import (
 	"encoding/json"
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/cors"
+	"github.com/gofiber/fiber/v2/middleware/idempotency"
 	"github.com/gofiber/fiber/v2/middleware/recover"
 	"go-fiber-v2/pkg/configs"
 	Logger "go-fiber-v2/pkg/libs/logger"
 	Session "go-fiber-v2/pkg/libs/session"
 	"strings"
+	"time"
 )
 
 // FiberMiddleware provide Fiber's built-in middlewares.
@@ -31,6 +33,11 @@ func FiberMiddleware(a *fiber.App) {
 
 		//Add panic recovery
 		recover.New(recover.Config{EnableStackTrace: true}),
+
+		idempotency.New(idempotency.Config{
+			Lifetime: 30 * time.Minute,
+			// ...
+		}),
 
 		// Add simple logger.
 		//logger.New(),
