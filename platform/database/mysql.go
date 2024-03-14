@@ -2,8 +2,8 @@ package database
 
 import (
 	"fmt"
+	Session "gitlab.pede.id/otto-library/golang/share-pkg/session"
 	"go-fiber-v2/pkg/configs"
-	Session "go-fiber-v2/pkg/libs/session"
 	"go-fiber-v2/pkg/utils"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"

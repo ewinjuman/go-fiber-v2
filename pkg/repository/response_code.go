@@ -1,6 +1,6 @@
 package repository
 
-import Error "go-fiber-v2/pkg/libs/error"
+import Error "gitlab.pede.id/otto-library/golang/share-pkg/error"
 
 // const for code
 const (

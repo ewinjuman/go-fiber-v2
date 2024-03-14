@@ -6,9 +6,9 @@ import (
 	"github.com/gofiber/fiber/v2/middleware/cors"
 	"github.com/gofiber/fiber/v2/middleware/idempotency"
 	"github.com/gofiber/fiber/v2/middleware/recover"
+	Logger "gitlab.pede.id/otto-library/golang/share-pkg/logger"
+	Session "gitlab.pede.id/otto-library/golang/share-pkg/session"
 	"go-fiber-v2/pkg/configs"
-	Logger "go-fiber-v2/pkg/libs/logger"
-	Session "go-fiber-v2/pkg/libs/session"
 	"strings"
 	"time"
 )
@@ -19,8 +19,7 @@ func FiberMiddleware(a *fiber.App) {
 	a.Use(
 		// Add CORS to each route.
 		cors.New(cors.Config{
-			AllowOrigins:     "*",
-			AllowCredentials: true,
+			AllowOrigins: "*",
 			AllowMethods: strings.Join([]string{
 				fiber.MethodGet,
 				fiber.MethodPost,

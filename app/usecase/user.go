@@ -1,10 +1,10 @@
 package usecase
 
 import (
+	"gitlab.pede.id/otto-library/golang/share-pkg/session"
 	"go-fiber-v2/app/models"
 	"go-fiber-v2/app/queries"
 	"go-fiber-v2/pkg/configs"
-	"go-fiber-v2/pkg/libs/session"
 	"go-fiber-v2/pkg/utils"
 	"go-fiber-v2/platform/grpc/user"
 	"go-fiber-v2/platform/http/example"

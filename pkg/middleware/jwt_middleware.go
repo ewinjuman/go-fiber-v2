@@ -13,7 +13,7 @@ func JWTProtected() func(*fiber.Ctx) error {
 	// Create config for JWT authentication middleware.
 	config := jwtMiddleware.Config{
 		SigningKey:   []byte(configs.Config.Apps.JwtSecretKey),
-		ContextKey:   "jwt", // used in private routes
+		ContextKey:   "jwt", // used in private_libs.sh routes
 		ErrorHandler: jwtError,
 	}
 

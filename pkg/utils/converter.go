@@ -2,7 +2,7 @@ package utils
 
 import (
 	"encoding/json"
-	Error "go-fiber-v2/pkg/libs/error"
+	Error "gitlab.pede.id/otto-library/golang/share-pkg/error"
 	"net/http"
 	"strings"
 )

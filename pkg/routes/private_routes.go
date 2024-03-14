@@ -6,7 +6,7 @@ import (
 	"go-fiber-v2/pkg/middleware"
 )
 
-// PrivateRoutes func for describe group of private routes.
+// PrivateRoutes func for describe group of private_libs.sh routes.
 func PrivateRoutes(a *fiber.App) {
 	// Create routes group.
 	route := a.Group("/api/v1")

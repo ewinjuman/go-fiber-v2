@@ -2,10 +2,10 @@ package example
 
 import (
 	"encoding/json"
+	Error "gitlab.pede.id/otto-library/golang/share-pkg/error"
+	Rest "gitlab.pede.id/otto-library/golang/share-pkg/http"
+	Session "gitlab.pede.id/otto-library/golang/share-pkg/session"
 	"go-fiber-v2/pkg/configs"
-	Error "go-fiber-v2/pkg/libs/error"
-	Rest "go-fiber-v2/pkg/libs/http"
-	Session "go-fiber-v2/pkg/libs/session"
 	"go-fiber-v2/pkg/repository"
 	"net/http"
 )

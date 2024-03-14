@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"github.com/go-playground/validator/v10"
 	"github.com/google/uuid"
-	Error "go-fiber-v2/pkg/libs/error"
+	Error "gitlab.pede.id/otto-library/golang/share-pkg/error"
 	"net/http"
 	"strings"
 )

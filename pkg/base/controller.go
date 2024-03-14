@@ -2,8 +2,8 @@ package base
 
 import (
 	"github.com/gofiber/fiber/v2"
-	Error "go-fiber-v2/pkg/libs/error"
-	Session "go-fiber-v2/pkg/libs/session"
+	Error "gitlab.pede.id/otto-library/golang/share-pkg/error"
+	Session "gitlab.pede.id/otto-library/golang/share-pkg/session"
 	"go-fiber-v2/pkg/repository"
 )
 

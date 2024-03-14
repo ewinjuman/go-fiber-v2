@@ -2,12 +2,12 @@ package grpc
 
 import (
 	"context"
+	Error "gitlab.pede.id/otto-library/golang/share-pkg/error"
+	"gitlab.pede.id/otto-library/golang/share-pkg/helper/convert"
+	Session "gitlab.pede.id/otto-library/golang/share-pkg/session"
 	pb2 "go-fiber-v2/app/interfaces/grpc/pb"
 	"go-fiber-v2/app/models"
 	"go-fiber-v2/app/usecase"
-	Error "go-fiber-v2/pkg/libs/error"
-	"go-fiber-v2/pkg/libs/helper/convert"
-	Session "go-fiber-v2/pkg/libs/session"
 	"go-fiber-v2/pkg/repository"
 	"go-fiber-v2/pkg/utils"
 	"google.golang.org/grpc/codes"
