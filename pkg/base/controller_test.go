@@ -2,7 +2,7 @@ package base
 
 import (
 	"github.com/pkg/errors"
-	Error "go-fiber-v2/pkg/libs/error"
+	Error "gitlab.pede.id/otto-library/golang/share-pkg/error"
 	"reflect"
 	"testing"
 )

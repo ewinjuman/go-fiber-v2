@@ -2,12 +2,12 @@ package usecase
 
 import (
 	"github.com/stretchr/testify/mock"
+	Error "gitlab.pede.id/otto-library/golang/share-pkg/error"
+	Logger "gitlab.pede.id/otto-library/golang/share-pkg/logger"
+	"gitlab.pede.id/otto-library/golang/share-pkg/session"
 	"go-fiber-v2/app/models"
 	"go-fiber-v2/app/queries"
 	"go-fiber-v2/pkg/configs"
-	Error "go-fiber-v2/pkg/libs/error"
-	Logger "go-fiber-v2/pkg/libs/logger"
-	"go-fiber-v2/pkg/libs/session"
 	"go-fiber-v2/platform/grpc/user"
 	"go-fiber-v2/platform/http/example"
 	"reflect"
