@@ -30,7 +30,6 @@ func ConvertPhoneNumber(mobilePhoneNumber string) (newMobilePhoneNumber string, 
 	if strings.HasPrefix(phoneNumber, "62") {
 		newMobilePhoneNumber = strings.Replace(phoneNumber, "62", "0", 1)
 	} else if strings.HasPrefix(phoneNumber, "+62") {
-		println(phoneNumber)
 		newMobilePhoneNumber = strings.Replace(phoneNumber, "+62", "0", 1)
 	} else if strings.HasPrefix(phoneNumber, "0") {
 		newMobilePhoneNumber = phoneNumber

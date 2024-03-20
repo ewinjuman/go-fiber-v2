@@ -4,6 +4,7 @@ import (
 	"fmt"
 	Session "gitlab.pede.id/otto-library/golang/share-pkg/session"
 	"go-fiber-v2/pkg/configs"
+	"go-fiber-v2/pkg/repository"
 	"go-fiber-v2/pkg/utils"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
@@ -11,7 +12,7 @@ import (
 	"time"
 )
 
-var DB *gorm.DB
+var dbConnection *gorm.DB
 
 //func init() {
 //	err := mysqlOpen()
@@ -47,19 +48,19 @@ func mysqlOpen() error {
 	sqlDB.SetMaxIdleConns(config.MaxIdleConn)
 	sqlDB.SetMaxOpenConns(config.MaxOpenConn)
 
-	DB = db
+	dbConnection = db
 	return nil
 }
 
 // MysqlConnection func for connection to Mysql database.
 func MysqlConnection(session *Session.Session) (*gorm.DB, error) {
-	if DB == nil {
+	if dbConnection == nil {
 		if err := mysqlOpen(); err != nil {
 			session.Error(err.Error())
-			return DB, err
+			return dbConnection, repository.UndefinedErr
 		}
 	}
-	sqlDB, err := DB.DB()
+	sqlDB, err := dbConnection.DB()
 	if err != nil {
 		return nil, err
 	}
@@ -67,7 +68,7 @@ func MysqlConnection(session *Session.Session) (*gorm.DB, error) {
 		errping = nil
 		if errping = mysqlOpen(); errping != nil {
 			session.Error(errping.Error())
-			return DB, errping
+			return dbConnection, repository.UndefinedErr
 		}
 	}
 	logLevel := logger.Info
@@ -84,7 +85,7 @@ func MysqlConnection(session *Session.Session) (*gorm.DB, error) {
 			Colorful:                  false,       // Disable color
 		},
 	)
-	//DB.Logger.LogMode(logger.Silent)
-	DB.Logger = newLogger
-	return DB, nil
+	//dbConnection.Logger.LogMode(logger.Silent)
+	dbConnection.Logger = newLogger
+	return dbConnection, nil
 }
