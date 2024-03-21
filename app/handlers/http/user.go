@@ -13,7 +13,7 @@ import (
 
 func UserSignUp(c *fiber.Ctx) error {
 	ctx := base.NewContext(c)
-	panic("ini panic")
+	
 	// Create a new user auth struct.
 	signUp := &models.SignUpRequest{}
 
