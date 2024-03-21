@@ -5,9 +5,9 @@ import (
 	Error "gitlab.pede.id/otto-library/golang/share-pkg/error"
 	"gitlab.pede.id/otto-library/golang/share-pkg/helper/convert"
 	Session "gitlab.pede.id/otto-library/golang/share-pkg/session"
-	pb2 "go-fiber-v2/app/interfaces/grpc/pb"
+	pb2 "go-fiber-v2/app/handlers/grpc/pb"
 	"go-fiber-v2/app/models"
-	"go-fiber-v2/app/usecase"
+	"go-fiber-v2/app/usecase/user"
 	"go-fiber-v2/pkg/repository"
 	"go-fiber-v2/pkg/utils"
 	"google.golang.org/grpc/codes"
@@ -33,7 +33,7 @@ func (s *server) SignUp(ctx context.Context, in *pb2.RequestSignUp) (*pb2.Respon
 		return nil, status.Error(codes.Code(repository.BadRequestCode), err.Error())
 	}
 
-	user := usecase.NewUserUsecase(session)
+	user := user.NewUserUsecase(session)
 	d, err := user.CreateUser(request)
 	if err != nil {
 		parseError := Error.ParseError(err)

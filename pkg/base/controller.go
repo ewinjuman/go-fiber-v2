@@ -43,7 +43,7 @@ func BuildResponse(data interface{}, err error) *Response {
 			res.Status = he.Status
 		} else {
 			res.Code = repository.UndefinedCode
-			res.Status = repository.FailedStatus
+			res.Status = repository.UndefinedStatus
 		}
 		res.Message = err.Error()
 	} else {

@@ -3,7 +3,7 @@ package main
 import (
 	"github.com/common-nighthawk/go-figure"
 	"github.com/gofiber/fiber/v2"
-	userGrpc "go-fiber-v2/app/interfaces/grpc"
+	userGrpc "go-fiber-v2/app/handlers/grpc"
 	"go-fiber-v2/pkg/configs"
 	"go-fiber-v2/pkg/middleware"
 	"go-fiber-v2/pkg/routes"

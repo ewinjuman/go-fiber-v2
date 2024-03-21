@@ -3,7 +3,7 @@ package routes
 import (
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/monitor"
-	httpHandler "go-fiber-v2/app/interfaces/http"
+	httpHandler "go-fiber-v2/app/handlers/http"
 )
 
 // PublicRoutes func for describe group of public routes.

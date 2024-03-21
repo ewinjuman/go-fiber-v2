@@ -5,7 +5,7 @@ import (
 	"fmt"
 	Logger "gitlab.pede.id/otto-library/golang/share-pkg/logger"
 	Session "gitlab.pede.id/otto-library/golang/share-pkg/session"
-	"go-fiber-v2/app/interfaces/grpc/pb"
+	"go-fiber-v2/app/handlers/grpc/pb"
 	"go-fiber-v2/pkg/configs"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/metadata"

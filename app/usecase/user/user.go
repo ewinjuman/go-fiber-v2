@@ -1,4 +1,4 @@
-package usecase
+package user
 
 import (
 	"gitlab.pede.id/otto-library/golang/share-pkg/password"

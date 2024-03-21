@@ -2,6 +2,7 @@ package middleware
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/cors"
 	"github.com/gofiber/fiber/v2/middleware/idempotency"
@@ -9,6 +10,8 @@ import (
 	Logger "gitlab.pede.id/otto-library/golang/share-pkg/logger"
 	Session "gitlab.pede.id/otto-library/golang/share-pkg/session"
 	"go-fiber-v2/pkg/configs"
+	"os"
+	"runtime/debug"
 	"strings"
 	"time"
 )
@@ -17,6 +20,9 @@ import (
 // See: https://docs.gofiber.io/api/middleware
 func FiberMiddleware(a *fiber.App) {
 	a.Use(
+		// Add request response logger.
+		RequestResponseLog,
+
 		// Add CORS to each route.
 		cors.New(cors.Config{
 			AllowOrigins: "*",
@@ -31,18 +37,24 @@ func FiberMiddleware(a *fiber.App) {
 		}),
 
 		//Add panic recovery
-		recover.New(recover.Config{EnableStackTrace: true}),
+		recover.New(recover.Config{EnableStackTrace: true, StackTraceHandler: stackTraceHandler}),
 
+		// Add idempotency
 		idempotency.New(idempotency.Config{
 			Lifetime: 30 * time.Minute,
 			// ...
 		}),
 
+		//Add Rewrite for backward compatibility or just creating cleaner and more descriptive links
+		//rewrite.New(rewrite.Config{
+		//	Rules: map[string]string{
+		//		"/api/v1/user/sign/up": "/api/v2/user/sign/up",
+		//	},
+		//}),
+
 		// Add simple logger.
 		//logger.New(),
 
-		// Add request response logger.
-		RequestResponseLog,
 	)
 }
 
@@ -85,4 +97,17 @@ func RequestResponseLog(c *fiber.Ctx) error {
 	}
 
 	return nil
+}
+
+func stackTraceHandler(c *fiber.Ctx, err interface{}) {
+	s := Session.GetSession(c)
+	s.Error(err)
+	_, _ = os.Stderr.WriteString(fmt.Sprintf("panic: %v\n%s\n", err, debug.Stack()))
+	// Return status 500 and failed authentication error.
+	c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
+		"code":    fiber.StatusInternalServerError,
+		"message": "Internal Server Error",
+		"status":  "ERROR",
+		"data":    nil,
+	})
 }
