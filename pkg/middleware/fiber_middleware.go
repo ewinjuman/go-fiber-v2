@@ -8,11 +8,11 @@ import (
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/cors"
 	"github.com/gofiber/fiber/v2/middleware/idempotency"
-	"github.com/gofiber/fiber/v2/middleware/keyauth"
 	"github.com/gofiber/fiber/v2/middleware/recover"
 	Logger "gitlab.pede.id/otto-library/golang/share-pkg/logger"
 	Session "gitlab.pede.id/otto-library/golang/share-pkg/session"
 	"go-fiber-v2/pkg/configs"
+	"go-fiber-v2/pkg/repository"
 	"os"
 	"runtime/debug"
 	"strings"
@@ -25,8 +25,8 @@ func FiberMiddleware(a *fiber.App) {
 	a.Use(
 		// Add request response logger.
 		RequestResponseLog,
-		//
-		//// Add CORS to each route.
+		
+		// Add CORS to each route.
 		cors.New(cors.Config{
 			AllowOrigins: "*",
 			AllowMethods: strings.Join([]string{
@@ -42,7 +42,7 @@ func FiberMiddleware(a *fiber.App) {
 		//Add panic recovery
 		recover.New(recover.Config{EnableStackTrace: true, StackTraceHandler: stackTraceHandler}),
 
-		//// Add idempotency
+		// Add idempotency
 		idempotency.New(idempotency.Config{
 			Lifetime: 30 * time.Minute,
 			// ...
@@ -121,16 +121,17 @@ func stackTraceHandler(c *fiber.Ctx, err interface{}) {
 	})
 }
 
-var apiKey = "41cf0ef3-d6dc-4574-9213-dee0c2aa69bd" //example api key
+var apiKey = "41cf0ef3-d6dc-4574-9213-dee0c2aa69bd" //example api key,
 
 func validateAPIKey(c *fiber.Ctx, key string) (bool, error) {
+	//TODO get API key per user
 	hashedAPIKey := sha256.Sum256([]byte(apiKey))
 	hashedKey := sha256.Sum256([]byte(key))
 
 	if subtle.ConstantTimeCompare(hashedAPIKey[:], hashedKey[:]) == 1 {
 		return true, nil
 	}
-	return false, keyauth.ErrMissingOrMalformedAPIKey
+	return false, repository.UnauthorizedErr
 }
 
 func validationAPIkeyError(c *fiber.Ctx, err error) error {
