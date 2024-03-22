@@ -57,7 +57,13 @@ func FiberMiddleware(a *fiber.App) {
 
 		// Add simple logger.
 		//logger.New(),
-		
+
+		//Add apikey validation
+		//keyauth.New(keyauth.Config{
+		//	KeyLookup:    "header:Authorization",
+		//	Validator:    validateAPIKey,
+		//	ErrorHandler: validationAPIkeyError,
+		//}),
 	)
 }
 
@@ -115,7 +121,7 @@ func stackTraceHandler(c *fiber.Ctx, err interface{}) {
 	})
 }
 
-var apiKey = "correct horse battery staple"
+var apiKey = "41cf0ef3-d6dc-4574-9213-dee0c2aa69bd" //example api key
 
 func validateAPIKey(c *fiber.Ctx, key string) (bool, error) {
 	hashedAPIKey := sha256.Sum256([]byte(apiKey))
@@ -125,4 +131,14 @@ func validateAPIKey(c *fiber.Ctx, key string) (bool, error) {
 		return true, nil
 	}
 	return false, keyauth.ErrMissingOrMalformedAPIKey
+}
+
+func validationAPIkeyError(c *fiber.Ctx, err error) error {
+	// Return status 401 and failed authentication error.
+	return c.Status(fiber.StatusUnauthorized).JSON(fiber.Map{
+		"code":    fiber.StatusUnauthorized,
+		"message": err.Error(),
+		"status":  "Unauthorized",
+		"data":    nil,
+	})
 }
