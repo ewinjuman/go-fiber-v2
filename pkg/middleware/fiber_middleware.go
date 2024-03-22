@@ -1,11 +1,14 @@
 package middleware
 
 import (
+	"crypto/sha256"
+	"crypto/subtle"
 	"encoding/json"
 	"fmt"
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/cors"
 	"github.com/gofiber/fiber/v2/middleware/idempotency"
+	"github.com/gofiber/fiber/v2/middleware/keyauth"
 	"github.com/gofiber/fiber/v2/middleware/recover"
 	Logger "gitlab.pede.id/otto-library/golang/share-pkg/logger"
 	Session "gitlab.pede.id/otto-library/golang/share-pkg/session"
@@ -22,8 +25,8 @@ func FiberMiddleware(a *fiber.App) {
 	a.Use(
 		// Add request response logger.
 		RequestResponseLog,
-
-		// Add CORS to each route.
+		//
+		//// Add CORS to each route.
 		cors.New(cors.Config{
 			AllowOrigins: "*",
 			AllowMethods: strings.Join([]string{
@@ -39,7 +42,7 @@ func FiberMiddleware(a *fiber.App) {
 		//Add panic recovery
 		recover.New(recover.Config{EnableStackTrace: true, StackTraceHandler: stackTraceHandler}),
 
-		// Add idempotency
+		//// Add idempotency
 		idempotency.New(idempotency.Config{
 			Lifetime: 30 * time.Minute,
 			// ...
@@ -54,7 +57,7 @@ func FiberMiddleware(a *fiber.App) {
 
 		// Add simple logger.
 		//logger.New(),
-
+		
 	)
 }
 
@@ -74,8 +77,7 @@ func RequestResponseLog(c *fiber.Ctx) error {
 		SetURL(uri).
 		SetMethod(c.Method()).
 		SetRequest(request).
-		SetHeader(c.GetReqHeaders()).
-		SetActionTo("FE to BE")
+		SetHeader(c.GetReqHeaders())
 
 	if uri != "/api/v1/monitor" {
 		session.LogRequest("Log Request")
@@ -88,9 +90,10 @@ func RequestResponseLog(c *fiber.Ctx) error {
 
 	// Log response
 	var response interface{}
-	if err := json.Unmarshal(c.Context().Response.Body(), &response); err != nil {
-		return err
-	}
+	//if err := json.Unmarshal(c.Context().Response.Body(), &response); err != nil {
+	//	return err
+	//}
+	json.Unmarshal(c.Context().Response.Body(), &response)
 
 	if uri != "/api/v1/monitor" {
 		session.LogResponse(response, "Log Response")
@@ -103,11 +106,23 @@ func stackTraceHandler(c *fiber.Ctx, err interface{}) {
 	s := Session.GetSession(c)
 	s.Error(err)
 	_, _ = os.Stderr.WriteString(fmt.Sprintf("panic: %v\n%s\n", err, debug.Stack()))
-	// Return status 500 and failed authentication error.
+	// Return status 500
 	c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
 		"code":    fiber.StatusInternalServerError,
 		"message": "Internal Server Error",
 		"status":  "ERROR",
 		"data":    nil,
 	})
+}
+
+var apiKey = "correct horse battery staple"
+
+func validateAPIKey(c *fiber.Ctx, key string) (bool, error) {
+	hashedAPIKey := sha256.Sum256([]byte(apiKey))
+	hashedKey := sha256.Sum256([]byte(key))
+
+	if subtle.ConstantTimeCompare(hashedAPIKey[:], hashedKey[:]) == 1 {
+		return true, nil
+	}
+	return false, keyauth.ErrMissingOrMalformedAPIKey
 }
