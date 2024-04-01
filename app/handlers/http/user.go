@@ -13,7 +13,7 @@ import (
 
 func UserSignUp(c *fiber.Ctx) error {
 	ctx := base.NewContext(c)
-	
+
 	// Create a new user auth struct.
 	signUp := &models.SignUpRequest{}
 
@@ -50,6 +50,5 @@ func UserSignUpV2(c *fiber.Ctx) error {
 
 func Generate(c *fiber.Ctx) error {
 	ctx := base.NewContext(c)
-	panic("panic")
 	return ctx.Response(uuid.New().ID(), nil)
 }

@@ -3,8 +3,9 @@ package user
 import (
 	"gitlab.pede.id/otto-library/golang/share-pkg/password"
 	"gitlab.pede.id/otto-library/golang/share-pkg/session"
+	"go-fiber-v2/app/domain/entities"
+	"go-fiber-v2/app/domain/queries"
 	"go-fiber-v2/app/models"
-	"go-fiber-v2/app/queries"
 	"go-fiber-v2/pkg/configs"
 	"go-fiber-v2/platform/grpc/user"
 	"go-fiber-v2/platform/http/example"
@@ -34,7 +35,7 @@ func NewUserUsecase(session *session.Session) (item UserUsecaseService) {
 }
 
 func (h *userUsecase) CreateUser(up *models.SignUpRequest) (response interface{}, err error) {
-	user := &models.User{}
+	user := &entities.User{}
 
 	user.Email = up.Email
 	user.PasswordHash = password.GeneratePassword(up.Password)

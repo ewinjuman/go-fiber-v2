@@ -5,8 +5,9 @@ import (
 	Error "gitlab.pede.id/otto-library/golang/share-pkg/error"
 	Logger "gitlab.pede.id/otto-library/golang/share-pkg/logger"
 	"gitlab.pede.id/otto-library/golang/share-pkg/session"
+	"go-fiber-v2/app/domain/entities"
+	queries2 "go-fiber-v2/app/domain/queries"
 	"go-fiber-v2/app/models"
-	"go-fiber-v2/app/queries"
 	"go-fiber-v2/pkg/configs"
 	"go-fiber-v2/platform/grpc/user"
 	"go-fiber-v2/platform/http/example"
@@ -16,8 +17,8 @@ import (
 
 func Test_userUsecase_CreateUser(t *testing.T) {
 	log := Logger.New(configs.Config.Logger)
-	mockUserQueriesSuccess := new(queries.MockUserQueries)
-	respQueryInsertUser := &models.User{
+	mockUserQueriesSuccess := new(queries2.MockUserQueries)
+	respQueryInsertUser := &entities.User{
 		ID:           45,
 		Email:        "ew@email.com",
 		PasswordHash: "$2a$04$6/BNlaKd2HU4QoesEVzbRumnLfLwNxTcikjEkiXXUWjqfb29FDPQq",
@@ -26,8 +27,8 @@ func Test_userUsecase_CreateUser(t *testing.T) {
 	}
 	mockUserQueriesSuccess.On("InsertOneItem", mock.AnythingOfType("*models.User")).Return(respQueryInsertUser, nil)
 
-	mockUserQueriesError := new(queries.MockUserQueries)
-	mockUserQueriesError.On("InsertOneItem", mock.AnythingOfType("*models.User")).Return(&models.User{}, Error.NewError(400, "FAILED", "Duplicate Entry"))
+	mockUserQueriesError := new(queries2.MockUserQueries)
+	mockUserQueriesError.On("InsertOneItem", mock.AnythingOfType("*models.User")).Return(&entities.User{}, Error.NewError(400, "FAILED", "Duplicate Entry"))
 
 	mockUserHttpSuccess := new(example.MockUserHttp)
 	resHttpSuccess := example.ValidateSessionResponse{
@@ -50,13 +51,13 @@ func Test_userUsecase_CreateUser(t *testing.T) {
 	mockUserGrpcError.On("TokenValidation", mock.AnythingOfType("string")).Return("", Error.NewError(401, "FAILED", "Session anda telah habis"))
 
 	type fields struct {
-		userQuery queries.UserQueriesService
+		session   *session.Session
+		userQuery queries2.UserQueriesService
 		userHttp  example.UserHttpService
 		userGrpc  user.UserGrpcService
 	}
 	type args struct {
-		session *session.Session
-		up      *models.SignUpRequest
+		up *models.SignUpRequest
 	}
 	tests := []struct {
 		name         string
@@ -68,12 +69,12 @@ func Test_userUsecase_CreateUser(t *testing.T) {
 		{
 			"Success test",
 			fields{
+				session:   session.New(log),
 				userQuery: mockUserQueriesSuccess,
 				userHttp:  mockUserHttpSuccess,
 				userGrpc:  mockUserGrpcSuccess,
 			},
 			args{
-				session: session.New(log),
 				up: &models.SignUpRequest{
 					Email:    "ew@mail.com",
 					Password: "12345",
@@ -93,12 +94,12 @@ func Test_userUsecase_CreateUser(t *testing.T) {
 		{
 			"Error test",
 			fields{
+				session:   session.New(log),
 				userQuery: mockUserQueriesError,
 				userHttp:  mockUserHttpSuccess,
 				userGrpc:  mockUserGrpcSuccess,
 			},
 			args{
-				session: session.New(log),
 				up: &models.SignUpRequest{
 					Email:    "ew@mail.com",
 					Password: "12345",
@@ -112,7 +113,7 @@ func Test_userUsecase_CreateUser(t *testing.T) {
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			h := &userUsecase{
-				session:   tt.args.session,
+				session:   tt.fields.session,
 				userQuery: tt.fields.userQuery,
 				userHttp:  tt.fields.userHttp,
 				userGrpc:  tt.fields.userGrpc,
