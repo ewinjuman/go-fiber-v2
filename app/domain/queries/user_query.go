@@ -29,7 +29,7 @@ func (r *userQueries) InsertOneItem(req *entities.User) (user *entities.User, er
 	newUser := new(entities.User)
 	err = db.Omit("updated_at").Create(req).Scan(newUser).Error
 	if err != nil {
-		err = repository.ConvMysqlErr(err)
+		err = repository.HandleMysqlError(err)
 		return
 	}
 	return newUser, nil

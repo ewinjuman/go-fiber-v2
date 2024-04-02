@@ -5,7 +5,7 @@ import (
 	"github.com/google/uuid"
 	Error "gitlab.pede.id/otto-library/golang/share-pkg/error"
 	"go-fiber-v2/app/models"
-	"go-fiber-v2/app/usecase/user"
+	"go-fiber-v2/app/usecase"
 	"go-fiber-v2/pkg/base"
 	"go-fiber-v2/pkg/repository"
 	"go-fiber-v2/pkg/utils"
@@ -30,7 +30,7 @@ func UserSignUp(c *fiber.Ctx) error {
 		// Return, if some fields are not valid.
 		return ctx.Response(nil, Error.New(fiber.StatusBadRequest, repository.FailedStatus, err.Error()))
 	}
-	user := user.NewUserUsecase(ctx.Session)
+	user := usecase.NewUserUsecase(ctx.Session)
 	result, err := user.CreateUser(signUp)
 	// Return status 200 OK.
 	return ctx.Response(result, err)
