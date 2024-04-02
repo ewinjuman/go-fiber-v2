@@ -83,13 +83,14 @@ func SetError(code int, message ...string) error {
 	}
 }
 
-func ConvMysqlErr(err error) error {
+// Convert and Mapping  MySql Error
+func HandleMysqlError(err error) error {
 	if err != nil {
 		if err == gorm.ErrRecordNotFound {
 			return Error.NewError(NotFoundCode, FailedStatus)
 		}
 		if mysqlErr, ok := err.(*mysql.MySQLError); ok {
-			return MapErrorMysql(mysqlErr)
+			return MapMysqlError(mysqlErr)
 		} else {
 			return err
 		}
@@ -97,14 +98,12 @@ func ConvMysqlErr(err error) error {
 	return nil
 }
 
-func MapErrorMysql(mySqlErr *mysql.MySQLError) (err error) {
+// Mapping  MySql Error
+func MapMysqlError(mySqlErr *mysql.MySQLError) (err error) {
 	switch mySqlErr.Number {
 	case 1062: // MySQL code for duplicate entry
-		err = DuplicateEntryErr
-	case 0: // example
-		err = NotFoundErr
+		return DuplicateEntryErr
 	default:
-		err = UndefinedErr
+		return UndefinedErr
 	}
-	return
 }
