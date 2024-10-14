@@ -2,7 +2,7 @@ package database
 
 import (
 	"fmt"
-	Session "gitlab.pede.id/otto-library/golang/share-pkg/session"
+	Session "github.com/ewinjuman/go-lib/session"
 	"go-fiber-v2/pkg/configs"
 	"go-fiber-v2/pkg/repository"
 	"go-fiber-v2/pkg/utils"

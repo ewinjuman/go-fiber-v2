@@ -1,8 +1,8 @@
 package repository
 
 import (
+	Error "github.com/ewinjuman/go-lib/error"
 	"github.com/go-sql-driver/mysql"
-	Error "gitlab.pede.id/otto-library/golang/share-pkg/error"
 	"gorm.io/gorm"
 )
 

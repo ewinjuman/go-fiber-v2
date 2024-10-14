@@ -2,9 +2,9 @@ package grpc
 
 import (
 	"context"
-	Error "gitlab.pede.id/otto-library/golang/share-pkg/error"
-	"gitlab.pede.id/otto-library/golang/share-pkg/helper/convert"
-	Session "gitlab.pede.id/otto-library/golang/share-pkg/session"
+	Error "github.com/ewinjuman/go-lib/error"
+	"github.com/ewinjuman/go-lib/helper/convert"
+	Session "github.com/ewinjuman/go-lib/session"
 	pb2 "go-fiber-v2/app/handlers/grpc/pb"
 	"go-fiber-v2/app/models"
 	"go-fiber-v2/app/usecase"

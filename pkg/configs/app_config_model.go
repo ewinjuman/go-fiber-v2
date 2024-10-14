@@ -1,9 +1,9 @@
 package configs
 
 import (
-	GRPC "gitlab.pede.id/otto-library/golang/share-pkg/grpc"
-	Rest "gitlab.pede.id/otto-library/golang/share-pkg/http"
-	Logger "gitlab.pede.id/otto-library/golang/share-pkg/logger"
+	GRPC "github.com/ewinjuman/go-lib/grpc"
+	Rest "github.com/ewinjuman/go-lib/http"
+	Logger "github.com/ewinjuman/go-lib/logger"
 )
 
 type Configuration struct {

@@ -1,8 +1,8 @@
 package base
 
 import (
+	Error "github.com/ewinjuman/go-lib/error"
 	"github.com/pkg/errors"
-	Error "gitlab.pede.id/otto-library/golang/share-pkg/error"
 	"reflect"
 	"testing"
 )

@@ -2,9 +2,9 @@ package utils
 
 import (
 	"fmt"
+	Error "github.com/ewinjuman/go-lib/error"
 	"github.com/go-playground/validator/v10"
 	"github.com/google/uuid"
-	Error "gitlab.pede.id/otto-library/golang/share-pkg/error"
 	"net/http"
 	"strings"
 )

@@ -1,8 +1,8 @@
 package usecase
 
 import (
-	"gitlab.pede.id/otto-library/golang/share-pkg/password"
-	"gitlab.pede.id/otto-library/golang/share-pkg/session"
+	"github.com/ewinjuman/go-lib/password"
+	"github.com/ewinjuman/go-lib/session"
 	"go-fiber-v2/app/domain/entities"
 	"go-fiber-v2/app/domain/queries"
 	"go-fiber-v2/app/models"

@@ -3,8 +3,8 @@ package utils
 import (
 	"encoding/json"
 	"fmt"
+	Error "github.com/ewinjuman/go-lib/error"
 	"github.com/pkg/errors"
-	Error "gitlab.pede.id/otto-library/golang/share-pkg/error"
 	"net/http"
 	"strings"
 	"time"

@@ -5,12 +5,12 @@ import (
 	"crypto/subtle"
 	"encoding/json"
 	"fmt"
+	Logger "github.com/ewinjuman/go-lib/logger"
+	Session "github.com/ewinjuman/go-lib/session"
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/cors"
 	"github.com/gofiber/fiber/v2/middleware/idempotency"
 	"github.com/gofiber/fiber/v2/middleware/recover"
-	Logger "gitlab.pede.id/otto-library/golang/share-pkg/logger"
-	Session "gitlab.pede.id/otto-library/golang/share-pkg/session"
 	"go-fiber-v2/pkg/configs"
 	"go-fiber-v2/pkg/repository"
 	"os"
@@ -25,7 +25,7 @@ func FiberMiddleware(a *fiber.App) {
 	a.Use(
 		// Add request response logger.
 		RequestResponseLog,
-		
+
 		// Add CORS to each route.
 		cors.New(cors.Config{
 			AllowOrigins: "*",

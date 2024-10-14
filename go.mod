@@ -5,8 +5,8 @@ go 1.22.0
 require (
 	github.com/common-nighthawk/go-figure v0.0.0-20210622060536-734e95fb86be
 	github.com/dimiro1/health v0.0.0-20231118160444-e388c68d7d7e
+	github.com/ewinjuman/go-lib v1.0.0
 	github.com/fsnotify/fsnotify v1.7.0
-	github.com/go-playground/validator/v10 v10.17.0
 	github.com/go-sql-driver/mysql v1.7.0
 	github.com/gofiber/fiber/v2 v2.52.2
 	github.com/gofiber/jwt/v2 v2.2.7
@@ -18,7 +18,6 @@ require (
 	github.com/pkg/errors v0.9.1
 	github.com/spf13/viper v1.18.2
 	github.com/stretchr/testify v1.9.0
-	gitlab.pede.id/otto-library/golang/share-pkg v1.0.2
 	golang.org/x/net v0.21.0
 	google.golang.org/grpc v1.62.1
 	google.golang.org/protobuf v1.32.0
@@ -31,17 +30,18 @@ require (
 	github.com/cespare/xxhash/v2 v2.2.0 // indirect
 	github.com/davecgh/go-spew v1.1.2-0.20180830191138-d8f796af33cc // indirect
 	github.com/dgryski/go-rendezvous v0.0.0-20200823014737-9f7001d12a5f // indirect
-	github.com/gabriel-vasile/mimetype v1.4.2 // indirect
+	github.com/gabriel-vasile/mimetype v1.4.3 // indirect
 	github.com/garyburd/redigo v0.0.0-20160302234602-4ed1111375cb // indirect
 	github.com/go-playground/locales v0.14.1 // indirect
 	github.com/go-playground/universal-translator v0.18.1 // indirect
+	github.com/go-playground/validator/v10 v10.22.1 // indirect
 	github.com/go-resty/resty/v2 v2.11.0 // indirect
 	github.com/hashicorp/hcl v1.0.0 // indirect
 	github.com/jinzhu/inflection v1.0.0 // indirect
 	github.com/jinzhu/now v1.1.5 // indirect
 	github.com/json-iterator/go v1.1.12 // indirect
 	github.com/klauspost/compress v1.17.0 // indirect
-	github.com/leodido/go-urn v1.2.4 // indirect
+	github.com/leodido/go-urn v1.4.0 // indirect
 	github.com/lestrrat-go/file-rotatelogs v2.4.0+incompatible // indirect
 	github.com/lestrrat-go/strftime v1.0.6 // indirect
 	github.com/magiconair/properties v1.8.7 // indirect

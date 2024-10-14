@@ -1,7 +1,7 @@
 package queries
 
 import (
-	"gitlab.pede.id/otto-library/golang/share-pkg/session"
+	"github.com/ewinjuman/go-lib/session"
 	"go-fiber-v2/app/domain/entities"
 	"go-fiber-v2/pkg/repository"
 	"go-fiber-v2/platform/database"

@@ -1,9 +1,9 @@
 package http
 
 import (
+	Error "github.com/ewinjuman/go-lib/error"
 	"github.com/gofiber/fiber/v2"
 	"github.com/google/uuid"
-	Error "gitlab.pede.id/otto-library/golang/share-pkg/error"
 	"go-fiber-v2/app/models"
 	"go-fiber-v2/app/usecase"
 	"go-fiber-v2/pkg/base"

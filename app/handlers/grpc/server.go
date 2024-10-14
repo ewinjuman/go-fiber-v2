@@ -3,8 +3,8 @@ package grpc
 import (
 	"context"
 	"fmt"
-	Logger "gitlab.pede.id/otto-library/golang/share-pkg/logger"
-	Session "gitlab.pede.id/otto-library/golang/share-pkg/session"
+	Logger "github.com/ewinjuman/go-lib/logger"
+	Session "github.com/ewinjuman/go-lib/session"
 	"go-fiber-v2/app/handlers/grpc/pb"
 	"go-fiber-v2/pkg/configs"
 	"google.golang.org/grpc"

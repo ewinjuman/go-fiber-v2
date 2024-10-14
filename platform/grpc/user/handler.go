@@ -2,9 +2,9 @@ package user
 
 import (
 	"context"
-	Error "gitlab.pede.id/otto-library/golang/share-pkg/error"
-	pGrpc "gitlab.pede.id/otto-library/golang/share-pkg/grpc"
-	Session "gitlab.pede.id/otto-library/golang/share-pkg/session"
+	Error "github.com/ewinjuman/go-lib/error"
+	pGrpc "github.com/ewinjuman/go-lib/grpc"
+	Session "github.com/ewinjuman/go-lib/session"
 	"go-fiber-v2/pkg/configs"
 	"google.golang.org/grpc/connectivity"
 )

@@ -1,10 +1,10 @@
 package usecase
 
 import (
+	Error "github.com/ewinjuman/go-lib/error"
+	Logger "github.com/ewinjuman/go-lib/logger"
+	"github.com/ewinjuman/go-lib/session"
 	"github.com/stretchr/testify/mock"
-	Error "gitlab.pede.id/otto-library/golang/share-pkg/error"
-	Logger "gitlab.pede.id/otto-library/golang/share-pkg/logger"
-	"gitlab.pede.id/otto-library/golang/share-pkg/session"
 	"go-fiber-v2/app/domain/entities"
 	queries2 "go-fiber-v2/app/domain/queries"
 	"go-fiber-v2/app/models"
