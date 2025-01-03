@@ -9,10 +9,14 @@ import (
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 	"gorm.io/gorm/logger"
+	"sync"
 	"time"
 )
 
-var dbConnection *gorm.DB
+var (
+	dbConnection *gorm.DB
+	once         sync.Once
+)
 
 //func init() {
 //	err := mysqlOpen()
@@ -20,6 +24,16 @@ var dbConnection *gorm.DB
 //		panic(err.Error())
 //	}
 //}
+
+// InitLogger inisialisasi logger sekali saja
+func InitDb() {
+	once.Do(func() {
+		err := mysqlOpen
+		if err != nil {
+			panic(err)
+		}
+	})
+}
 
 // Mysql open connection
 func mysqlOpen() error {
@@ -52,40 +66,59 @@ func mysqlOpen() error {
 	return nil
 }
 
-// MysqlConnection func for connection to Mysql database.
-func MysqlConnection(session *Session.Session) (*gorm.DB, error) {
+// GetMysqlConnection func for connection to Mysql database.
+func GetMysqlConnection(session *Session.Session) (*gorm.DB, error) {
 	if dbConnection == nil {
-		if err := mysqlOpen(); err != nil {
+		if err := openMysqlConnection(); err != nil {
 			session.Error(err.Error())
-			return dbConnection, repository.UndefinedErr
+			return nil, repository.UndefinedErr
 		}
 	}
-	sqlDB, err := dbConnection.DB()
-	if err != nil {
+
+	if err := checkAndPingDatabase(session); err != nil {
 		return nil, err
 	}
-	if errping := sqlDB.Ping(); errping != nil {
-		errping = nil
-		if errping = mysqlOpen(); errping != nil {
-			session.Error(errping.Error())
-			return dbConnection, repository.UndefinedErr
+
+	configureDatabaseLogger(session)
+
+	return dbConnection, nil
+}
+
+func openMysqlConnection() error {
+	return mysqlOpen()
+}
+
+func checkAndPingDatabase(session *Session.Session) error {
+	sqlDB, err := dbConnection.DB()
+	if err != nil {
+		return err
+	}
+
+	if err := sqlDB.Ping(); err != nil {
+		if err := openMysqlConnection(); err != nil {
+			session.Error(err.Error())
+			return repository.UndefinedErr
 		}
 	}
+	return nil
+}
+
+func configureDatabaseLogger(session *Session.Session) {
 	logLevel := logger.Info
 	if !configs.Config.Database.LogMode {
 		logLevel = logger.Silent
 	}
+
 	newLogger := logger.New(
-		session.Logger, // io writer
+		session.Logger,
 		logger.Config{
-			SlowThreshold:             time.Second, // Slow SQL threshold
-			LogLevel:                  logLevel,    // Log level
-			IgnoreRecordNotFoundError: false,       // Ignore ErrRecordNotFound error for logger
-			ParameterizedQueries:      false,       // Don't include params in the SQL log
-			Colorful:                  false,       // Disable color
+			SlowThreshold:             time.Second,
+			LogLevel:                  logLevel,
+			IgnoreRecordNotFoundError: false,
+			ParameterizedQueries:      false,
+			Colorful:                  false,
 		},
 	)
-	//dbConnection.Logger.LogMode(logger.Silent)
+
 	dbConnection.Logger = newLogger
-	return dbConnection, nil
 }

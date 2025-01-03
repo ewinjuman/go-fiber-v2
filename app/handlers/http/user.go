@@ -11,6 +11,13 @@ import (
 	"go-fiber-v2/pkg/utils"
 )
 
+// @Summary Sign Up User
+// @Description register new user
+// @Tags users
+// @Request
+// @Success 200 {object} User
+// @Failure 404 {object} ErrorResponse
+// @Router /users/{id} [get]
 func UserSignUp(c *fiber.Ctx) error {
 	ctx := base.NewContext(c)
 

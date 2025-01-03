@@ -28,10 +28,10 @@
   },
   "database": {
     "dbType": "mysql",
-    "username": "gambit",
-    "password": "g4mB1t20#21",
+    "username": "fiber",
+    "password": "f1ber20#24",
     "schema": "fiber",
-    "host": "10.20.10.3",
+    "host": "10.xx.xx.3",
     "port": 3306,
     "maxIdleConn": 1,
     "maxOpenConn": 5,

@@ -83,7 +83,7 @@ func RequestResponseLog(c *fiber.Ctx) error {
 		SetURL(uri).
 		SetMethod(c.Method()).
 		SetRequest(request).
-		SetHeader(c.GetReqHeaders())
+		SetHeader(c.GetReqHeaders()).SetIP(c.IP())
 
 	if uri != "/api/v1/monitor" {
 		session.LogRequest("Log Request")

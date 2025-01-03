@@ -22,7 +22,7 @@ func NewUserQueries(session *session.Session) (rep UserQueriesService) {
 }
 
 func (r *userQueries) InsertOneItem(req *entities.User) (user *entities.User, err error) {
-	db, err := database.MysqlConnection(r.session)
+	db, err := database.GetMysqlConnection(r.session)
 	if err != nil {
 		return
 	}

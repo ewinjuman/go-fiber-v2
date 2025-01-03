@@ -15,7 +15,7 @@ import (
 func HealthCheck(c *fiber.Ctx) error {
 	ctx := base.NewContext(c)
 
-	dbConn, _ := database.MysqlConnection(ctx.Session)
+	dbConn, _ := database.GetMysqlConnection(ctx.Session)
 	dba, _ := dbConn.DB()
 	mysql := db.NewMySQLChecker(dba)
 	handler := health.NewHandler()
