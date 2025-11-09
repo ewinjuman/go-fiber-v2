@@ -13,14 +13,15 @@ import (
 
 // Tokens struct to describe tokens object.
 type Tokens struct {
-	Access  string
-	Refresh string
+	Access   string
+	Refresh  string
+	ExpireIn int64
 }
 
 // GenerateNewTokens func for generate a new Access & Refresh tokens.
 func GenerateNewTokens(id string, metaData TokenMetadata) (*Tokens, error) {
 	// Generate JWT Access token.
-	accessToken, err := generateNewAccessToken(id, metaData)
+	accessToken, e, err := generateNewAccessToken(id, metaData)
 	if err != nil {
 		// Return token generation error.
 		return nil, err
@@ -34,12 +35,13 @@ func GenerateNewTokens(id string, metaData TokenMetadata) (*Tokens, error) {
 	}
 
 	return &Tokens{
-		Access:  accessToken,
-		Refresh: refreshToken,
+		Access:   accessToken,
+		Refresh:  refreshToken,
+		ExpireIn: e,
 	}, nil
 }
 
-func generateNewAccessToken(id string, metaData TokenMetadata) (string, error) {
+func generateNewAccessToken(id string, metaData TokenMetadata) (string, int64, error) {
 	// Set secret key from .env file.
 	secret := configs.Config.Apps.JwtSecretKey
 
@@ -52,8 +54,8 @@ func generateNewAccessToken(id string, metaData TokenMetadata) (string, error) {
 	// Set public claims:
 	claims["id"] = id
 	claims["userId"] = metaData.UserID
-	claims["expires"] = time.Now().Add(time.Minute * time.Duration(minutesCount)).Unix()
-	claims["exp"] = time.Now().Add(time.Minute * time.Duration(minutesCount)).Unix()
+	claims["expires"] = time.Now().Add(time.Second * time.Duration(minutesCount)).Unix()
+	claims["exp"] = time.Now().Add(time.Second * time.Duration(minutesCount)).Unix()
 	claims["meta_data"] = metaData
 
 	// Create a new JWT access token with claims.
@@ -63,10 +65,10 @@ func generateNewAccessToken(id string, metaData TokenMetadata) (string, error) {
 	t, err := token.SignedString([]byte(secret))
 	if err != nil {
 		// Return error, it JWT token generation failed.
-		return "", err
+		return "", 0, err
 	}
 
-	return t, nil
+	return t, minutesCount, nil
 }
 
 func generateNewRefreshToken() (string, error) {

@@ -12,7 +12,7 @@ func PublicRoutes(a *fiber.App) {
 	route := a.Group("/api")
 	v1 := route.Group("/v1")
 	v1.Get("/monitor", monitor.New(monitor.Config{Title: "Go-Fiber v2 Metrics Page"}))
-	v1.Get("/health", httpHandler.HealthCheck) // register a new user
+	v1.All("/health", httpHandler.HealthCheck) // register a new user
 	// Routes for POST method:
 	v1.Post("/user/sign/up", httpHandler.UserSignUp) // register a new user
 	v1.Get("/generate", httpHandler.Generate)

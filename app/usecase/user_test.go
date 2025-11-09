@@ -1,23 +1,25 @@
 package usecase
 
 import (
-	Error "github.com/ewinjuman/go-lib/error"
-	Logger "github.com/ewinjuman/go-lib/logger"
-	"github.com/ewinjuman/go-lib/session"
-	"github.com/stretchr/testify/mock"
+	"testing"
+
 	"go-fiber-v2/app/domain/entities"
-	queries2 "go-fiber-v2/app/domain/queries"
+	"go-fiber-v2/app/domain/queries"
 	"go-fiber-v2/app/models"
 	"go-fiber-v2/pkg/configs"
 	"go-fiber-v2/platform/grpc/user"
 	"go-fiber-v2/platform/http/example"
 	"reflect"
-	"testing"
+
+	"github.com/ewinjuman/go-lib/error"
+	"github.com/ewinjuman/go-lib/logger"
+	"github.com/ewinjuman/go-lib/session"
+	"github.com/stretchr/testify/mock"
 )
 
 func Test_userUsecase_CreateUser(t *testing.T) {
-	log := Logger.New(configs.Config.Logger)
-	mockUserQueriesSuccess := new(queries2.MockUserQueries)
+	log := logger.New(configs.Config.Logger)
+	mockUserQueriesSuccess := new(queries.MockUserQueries)
 	respQueryInsertUser := &entities.User{
 		ID:           45,
 		Email:        "ew@email.com",
@@ -25,10 +27,10 @@ func Test_userUsecase_CreateUser(t *testing.T) {
 		UserStatus:   1,
 		UserRole:     "admin",
 	}
-	mockUserQueriesSuccess.On("InsertOneItem", mock.AnythingOfType("*models.User")).Return(respQueryInsertUser, nil)
+	mockUserQueriesSuccess.On("InsertOneItem", mock.AnythingOfType("*entities.User")).Return(respQueryInsertUser, nil)
 
-	mockUserQueriesError := new(queries2.MockUserQueries)
-	mockUserQueriesError.On("InsertOneItem", mock.AnythingOfType("*models.User")).Return(&entities.User{}, Error.NewError(400, "FAILED", "Duplicate Entry"))
+	mockUserQueriesError := new(queries.MockUserQueries)
+	mockUserQueriesError.On("InsertOneItem", mock.AnythingOfType("*entities.User")).Return(&entities.User{}, error.NewError(400, "FAILED", "Duplicate Entry"))
 
 	mockUserHttpSuccess := new(example.MockUserHttp)
 	resHttpSuccess := example.ValidateSessionResponse{
@@ -39,20 +41,20 @@ func Test_userUsecase_CreateUser(t *testing.T) {
 	resHttpSuccess.Data.OldID = 1
 	resHttpSuccess.Data.MobilePhoneNumber = "08123456"
 
-	mockUserHttpSuccess.On("TokenSessionValidation", mock.AnythingOfType("ValidateSessionRequest")).Return(resHttpSuccess, nil)
+	mockUserHttpSuccess.On("TokenSessionValidation", mock.AnythingOfType("example.ValidateSessionRequest")).Return(resHttpSuccess, nil)
 
 	mockUserHttpError := new(example.MockUserHttp)
-	mockUserHttpError.On("TokenSessionValidation", mock.AnythingOfType("ValidateSessionRequest")).Return(example.ValidateSessionResponse{}, Error.NewError(400, "FAILED", "Duplicate Entry"))
+	mockUserHttpError.On("TokenSessionValidation", mock.AnythingOfType("example.ValidateSessionRequest")).Return(example.ValidateSessionResponse{}, error.NewError(400, "FAILED", "Duplicate Entry"))
 
 	mockUserGrpcSuccess := new(user.MockUserGrpc)
 	mockUserGrpcSuccess.On("TokenValidation", mock.AnythingOfType("string")).Return("081393746665", nil)
 
 	mockUserGrpcError := new(user.MockUserGrpc)
-	mockUserGrpcError.On("TokenValidation", mock.AnythingOfType("string")).Return("", Error.NewError(401, "FAILED", "Session anda telah habis"))
+	mockUserGrpcError.On("TokenValidation", mock.AnythingOfType("string")).Return("", error.NewError(401, "FAILED", "Session anda telah habis"))
 
 	type fields struct {
 		session   *session.Session
-		userQuery queries2.UserQueriesService
+		userQuery queries.UserQueriesService
 		userHttp  example.UserHttpService
 		userGrpc  user.UserGrpcService
 	}

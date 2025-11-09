@@ -26,13 +26,14 @@ var (
 //}
 
 // InitLogger inisialisasi logger sekali saja
-func InitDb() {
+func InitDb() error {
 	once.Do(func() {
 		err := mysqlOpen
 		if err != nil {
 			panic(err)
 		}
 	})
+	return nil
 }
 
 // Mysql open connection
@@ -69,25 +70,20 @@ func mysqlOpen() error {
 // GetMysqlConnection func for connection to Mysql database.
 func GetMysqlConnection(session *Session.Session) (*gorm.DB, error) {
 	if dbConnection == nil {
-		if err := openMysqlConnection(); err != nil {
+		if err := mysqlOpen(); err != nil {
 			session.Error(err.Error())
 			return nil, repository.UndefinedErr
 		}
 	}
 
-	if err := checkAndPingDatabase(session); err != nil {
-		return nil, err
-	}
+	//if err := checkAndPingDatabase(session); err != nil {
+	//	return nil, err
+	//}
 
 	configureDatabaseLogger(session)
 
 	return dbConnection, nil
 }
-
-func openMysqlConnection() error {
-	return mysqlOpen()
-}
-
 func checkAndPingDatabase(session *Session.Session) error {
 	sqlDB, err := dbConnection.DB()
 	if err != nil {
@@ -95,7 +91,7 @@ func checkAndPingDatabase(session *Session.Session) error {
 	}
 
 	if err := sqlDB.Ping(); err != nil {
-		if err := openMysqlConnection(); err != nil {
+		if err := mysqlOpen(); err != nil {
 			session.Error(err.Error())
 			return repository.UndefinedErr
 		}

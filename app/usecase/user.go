@@ -56,19 +56,19 @@ func (h *userUsecase) CreateUser(up *models.SignUpRequest) (response interface{}
 	}
 
 	//http example
-	reqHttp := example.ValidateSessionRequest{Token: "tokenUser"}
-	respHttp, err := h.userHttp.TokenSessionValidation(reqHttp)
-	if err != nil {
-		return
-	}
+	//reqHttp := example.ValidateSessionRequest{Token: "tokenUser"}
+	//respHttp, err := h.userHttp.TokenSessionValidation(reqHttp)
+	//if err != nil {
+	//	return
+	//}
 
 	response = models.SignUpResponse{
-		ID:                resultQuery.ID,
-		Email:             resultQuery.Email,
-		Status:            resultQuery.UserStatus,
-		UserRole:          resultQuery.UserRole,
-		OldID:             respHttp.Data.OldID,
-		MobilePhoneNumber: respHttp.Data.MobilePhoneNumber,
+		ID:       resultQuery.ID,
+		Email:    resultQuery.Email,
+		Status:   resultQuery.UserStatus,
+		UserRole: resultQuery.UserRole,
+		//OldID:             respHttp.Data.OldID,
+		//MobilePhoneNumber: respHttp.Data.MobilePhoneNumber,
 	}
 	return
 }

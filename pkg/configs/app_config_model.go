@@ -22,7 +22,7 @@ type Apps struct {
 	Mode                   string
 	DefaultAppsId          string
 	JwtSecretKey           string
-	TokenExpiration        int
+	TokenExpiration        int64
 	JwtRefreshSecretKey    string
 	RefreshTokenExpiration int
 }
